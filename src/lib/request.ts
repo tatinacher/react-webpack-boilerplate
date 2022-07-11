@@ -7,11 +7,16 @@ export type RequestProps = {
 export const request = async ({
   url,
   method,
-  params = {}
+  params = {},
 }: RequestProps): Promise<any> => {
+  const request =
+    !process.env.NODE_ENV || process.env.NODE_ENV === "development"
+      ? process.env.REACT_APP_HOST + url
+      : url;
+
   const headers = {
     "Content-Type": "application/json;charset=UTF-8",
-    Accept: "application/json"
+    Accept: "application/json",
   };
   const options =
     method === "get"
@@ -19,11 +24,11 @@ export const request = async ({
       : {
           headers,
           method,
-          body: JSON.stringify(params)
+          body: JSON.stringify(params),
         };
 
   try {
-    const response = await fetch(url, options);
+    const response = await fetch(request, options);
     const result = await response.json();
 
     if (!response.ok) {

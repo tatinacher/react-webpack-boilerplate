@@ -1,7 +1,4 @@
-import * as React from "react";
+import { renderRoutes } from "react-router-config";
+import { ROUTES } from "./routes";
 
-export const App = () => (
-  <div>
-    <h1>React Boilerplate</h1>
-  </div>
-);
+export const App = () => renderRoutes(ROUTES);
